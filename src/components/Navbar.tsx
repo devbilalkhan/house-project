@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import Container from './Container'
+import { useAuth } from 'src/auth/useAuth'
 
 export const GlobalStyle: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false)
@@ -54,11 +55,11 @@ export const GlobalStyle: React.FC = () => {
 }
 
 export const Navbar: React.FC = () => {
-  const [authenticated, setAuthenticated] = React.useState(false)
-  const logout = () => null
+  const { authenticated, logout } = useAuth()
+
   return (
     <header>
-      <nav className="py-8 dark:bg-gray-800">
+      <nav className="py-8 dark:bg-gray-800 border-b-2 border-pink-600">
         <Container>
           <div className="grid grid-cols-3 gap-32">
             <div>
@@ -87,7 +88,7 @@ export const Navbar: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <Link href="/auth">
+                  <Link href="/login">
                     <a className="a-link">Signup / Login</a>
                   </Link>
                 </>

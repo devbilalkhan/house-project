@@ -1,15 +1,21 @@
+import { useRouter } from 'next/router'
 import React, { ReactNode } from 'react'
 import { Navbar } from './Navbar'
 
 interface layoutProps {
-  main: ReactNode
+  children: ReactNode
 }
 
-const Layout: React.FC<layoutProps> = ({ main }) => {
+const routes = ['login', 'signup']
+
+const Layout: React.FC<layoutProps> = ({ children }) => {
+  const router = useRouter()
+
   return (
     <>
-      <Navbar />
-      <main>{main}</main>
+      {/signup|login/.test(router.route) ? null : <Navbar />}
+
+      <main>{children}</main>
     </>
   )
 }
