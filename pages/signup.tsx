@@ -88,8 +88,8 @@ const signup: React.FC = () => {
               </p>
             </div>
             <div className="flex items-center justify-between">
-              <button
-                // isDisabled={auth.email === '' || auth.password === ''}
+              <Button
+                isDisabled={auth.email === '' || auth.password === ''}
                 onClick={async e => {
                   e.preventDefault()
                   console.log(auth)
@@ -102,7 +102,7 @@ const signup: React.FC = () => {
                 }}
               >
                 Signup
-              </button>
+              </Button>
               <a
                 className="a-link inline-block align-baseline font-bold text-sm  hover:text-blue-darker"
                 href="#"
