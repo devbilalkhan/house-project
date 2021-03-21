@@ -7,6 +7,7 @@ import { initFirebase } from 'src/auth/initFirebase'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import Debug from 'src/components/Debug'
+import { useRouter } from 'next/router'
 
 interface ISignUpProps {
   [key: string]: string
@@ -18,6 +19,7 @@ const signup: React.FC = () => {
     email: '',
     password: '',
   })
+  const router = useRouter()
 
   return (
     <Layout>
@@ -92,13 +94,11 @@ const signup: React.FC = () => {
                 isDisabled={auth.email === '' || auth.password === ''}
                 onClick={async e => {
                   e.preventDefault()
-                  console.log(auth)
-
                   await firebase
                     .auth()
                     .createUserWithEmailAndPassword(auth.email, auth.password)
-                    .then(() => (window.location.href = '/'))
-                    .catch(e => console.log(e))
+                    .then(() => router.push('/'))
+                    .catch(e => console.log(e.message))
                 }}
               >
                 Signup

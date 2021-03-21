@@ -7,16 +7,18 @@ import { initFirebase } from 'src/auth/initFirebase'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import Debug from 'src/components/Debug'
+import { useRouter } from 'next/router'
 interface ILoginProps {
   [key: string]: string
 }
 
-const login: React.FC<ILoginProps> = () => {
+const login: React.FC = () => {
   initFirebase()
   const [auth, setAuth] = React.useState<ILoginProps>({
     email: '',
     password: '',
   })
+  const router = useRouter()
   return (
     <Layout>
       <div className="my-64">
@@ -43,16 +45,16 @@ const login: React.FC<ILoginProps> = () => {
             <div className="mb-4">
               <label
                 className="block text-grey-darker text-sm font-bold mb-2"
-                htmlFor="username"
+                htmlFor="email"
               >
-                Username
+                Email address
               </label>
               <input
                 className="shadow input"
-                id="username"
+                id="email"
                 type="text"
-                name="username"
-                placeholder="Username"
+                name="email"
+                placeholder="Email address"
                 onChange={e =>
                   setAuth({
                     ...auth,
@@ -88,11 +90,12 @@ const login: React.FC<ILoginProps> = () => {
             <div className="flex items-center justify-between">
               <Button
                 isDisabled={auth.email === '' || auth.password === ''}
-                onClick={async () => {
+                onClick={async e => {
+                  e.preventDefault()
                   await firebase
                     .auth()
-                    .createUserWithEmailAndPassword(auth.email, auth.password)
-                    .then(() => (window.location.href = '/'))
+                    .signInWithEmailAndPassword(auth.email, auth.password)
+                    .then(() => router.push('/'))
                     .catch(e => console.log(e))
                 }}
               >

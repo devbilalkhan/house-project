@@ -6,8 +6,6 @@ interface layoutProps {
   children: ReactNode
 }
 
-const routes = ['login', 'signup']
-
 const Layout: React.FC<layoutProps> = ({ children }) => {
   const router = useRouter()
 
