@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { ReactNode } from 'react'
+import Container from './Container'
 import { Navbar } from './Navbar'
 
 interface layoutProps {
@@ -11,9 +12,14 @@ const Layout: React.FC<layoutProps> = ({ children }) => {
 
   return (
     <>
-      {/signup|login/.test(router.route) ? null : <Navbar />}
+      <Navbar />
 
-      <main>{children}</main>
+      <main>
+        {children}
+        <Container>
+          <div className="grid h-full grid-cols-2 mx-auto"></div>
+        </Container>
+      </main>
     </>
   )
 }

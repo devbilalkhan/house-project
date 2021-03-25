@@ -26,8 +26,6 @@ const Button: React.FC<ButtonProps> = ({
   isDisabled = false,
   ...props
 }) => {
-  console.log(props)
-
   return (
     <button
       type="button"

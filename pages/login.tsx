@@ -8,6 +8,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import Debug from 'src/components/Debug'
 import { useRouter } from 'next/router'
+import { GetServerSideProps, NextApiRequest } from 'next'
+import { loadIdToken } from 'src/auth/firebaseAdmin'
 interface ILoginProps {
   [key: string]: string
 }
@@ -30,7 +32,7 @@ const login: React.FC = () => {
                 <span className="text-lg">No Account?&nbsp;</span>
                 <div>
                   <Link href="/signup">
-                    <a className="a-link text-lg">
+                    <a className="text-lg a-link">
                       <span>Create an account</span>
                     </a>
                   </Link>
@@ -38,13 +40,13 @@ const login: React.FC = () => {
               </div>
             </div>
             <img
-              className="mx-auto w-20 my-12"
+              className="w-20 mx-auto my-12"
               src="/home-color.svg"
               alt="home icon"
             />
             <div className="mb-4">
               <label
-                className="block text-grey-darker text-sm font-bold mb-2"
+                className="block mb-2 text-sm font-bold text-grey-darker"
                 htmlFor="email"
               >
                 Email address
@@ -65,13 +67,13 @@ const login: React.FC = () => {
             </div>
             <div className="mb-6">
               <label
-                className="block text-grey-darker text-sm font-bold mb-2"
+                className="block mb-2 text-sm font-bold text-grey-darker"
                 htmlFor="password"
               >
                 Password
               </label>
               <input
-                className="input shadow"
+                className="shadow input"
                 id="password"
                 type="password"
                 name="password"
@@ -83,7 +85,7 @@ const login: React.FC = () => {
                   })
                 }
               />
-              <p className="text-red text-xs italic my-2">
+              <p className="my-2 text-xs italic text-red">
                 Please choose a password.
               </p>
             </div>
@@ -102,7 +104,7 @@ const login: React.FC = () => {
                 Login
               </Button>
               <a
-                className="a-link inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker"
+                className="inline-block text-sm font-bold align-baseline a-link text-blue hover:text-blue-darker"
                 href="#"
               >
                 Forgot Password?
@@ -115,4 +117,19 @@ const login: React.FC = () => {
   )
 }
 
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const uid = await loadIdToken(req as NextApiRequest)
+  //   console.log({ uid })
+  if (uid)
+    // res.setHeader('location', '/')
+    // res.statusCode = 302
+    // res.end()
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  return { props: {} }
+}
 export default login
